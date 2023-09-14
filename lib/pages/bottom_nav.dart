@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:food_app_panel/pages/add_item.dart';
-import 'package:food_app_panel/pages/home_page.dart';
-import 'package:food_app_panel/pages/order_page.dart';
-import 'package:food_app_panel/pages/profile_page.dart';
+import 'package:food_app_panel/pages/additem/add_item.dart';
+import 'package:food_app_panel/pages/homepage/home_page.dart';
+import 'package:food_app_panel/pages/orderPage/order_page.dart';
+import 'package:food_app_panel/pages/user/profile_page.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -24,10 +24,7 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body:
-          //Expanded(child: pages.elementAt(index)
-
-          IndexedStack(
+      body: IndexedStack(
         index: index,
         children: pages,
       ),
@@ -35,7 +32,7 @@ class _BottomNavState extends State<BottomNav> {
       bottomNavigationBar: CurvedNavigationBar(
         height: 60,
         backgroundColor: Colors.transparent,
-        color: Colors.red,
+        color: Theme.of(context).colorScheme.secondaryContainer,
         index: index,
         items: const <Widget>[
           Icon(Icons.home, size: 30),

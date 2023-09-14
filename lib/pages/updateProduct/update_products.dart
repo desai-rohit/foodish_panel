@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_app_panel/provider/App_provider.dart';
+import 'package:food_app_panel/pages/homepage/homepage_provider.dart';
+import 'package:food_app_panel/pages/updateProduct/updateProducts_provider.dart';
 import 'package:food_app_panel/services/api_services.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,8 @@ class _UpdateProductsState extends State<UpdateProducts> {
   @override
   void initState() {
     // TODO: implement initState
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    UpdateProductsProvider provider =
+        Provider.of<UpdateProductsProvider>(context, listen: false);
 
     provider.productsNameUpdateController.text = widget.data.name;
     provider.productsdesUpdateController.text = widget.data.des;
@@ -26,7 +28,9 @@ class _UpdateProductsState extends State<UpdateProducts> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppProvider>(
+    HomePageProvider homePageProvider =
+        Provider.of<HomePageProvider>(context, listen: false);
+    return Consumer<UpdateProductsProvider>(
       builder: (context, value, child) {
         return Scaffold(
           appBar: AppBar(),
@@ -67,8 +71,6 @@ class _UpdateProductsState extends State<UpdateProducts> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red),
                         onPressed: () {
                           productUpdate(
                                   id: widget.data.id,
@@ -77,7 +79,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                                   des: value.productsdesUpdateController.text,
                                   price:
                                       value.productspriceUpdateController.text)
-                              .then((v) => value.getAllProducts());
+                              .then((v) => homePageProvider.getAllProducts());
                         },
                         child: const Text("Update")),
                   )

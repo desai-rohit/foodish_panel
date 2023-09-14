@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_app_panel/pages/profile_page.dart';
-import 'package:food_app_panel/provider/App_provider.dart';
+import 'package:food_app_panel/pages/updateUser/updateuser_provider.dart';
+import 'package:food_app_panel/pages/user/profile_page.dart';
+import 'package:food_app_panel/pages/user/userprovider.dart';
 import 'package:food_app_panel/services/api_services.dart';
 import 'package:provider/provider.dart';
 
@@ -15,8 +16,8 @@ class UpdateUser extends StatefulWidget {
 class _UpdateUserState extends State<UpdateUser> {
   @override
   void initState() {
-    // TODO: implement initState
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    UpdateUserProvider provider =
+        Provider.of<UpdateUserProvider>(context, listen: false);
     provider.userNameController.text = widget.data.ownersName;
     provider.userRestaurantNameController.text = widget.data.restaurantName;
     provider.userGmailController.text = widget.data.gmail;
@@ -25,7 +26,9 @@ class _UpdateUserState extends State<UpdateUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppProvider>(
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    return Consumer<UpdateUserProvider>(
       builder: (context, value, child) {
         return Scaffold(
           appBar: AppBar(),
@@ -65,8 +68,6 @@ class _UpdateUserState extends State<UpdateUser> {
                 SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red),
                         onPressed: () {
                           widget.data.password ==
                                   value.userPasswordController.text
@@ -75,7 +76,8 @@ class _UpdateUserState extends State<UpdateUser> {
                                       restaurantName: value
                                           .userRestaurantNameController.text,
                                       gmail: widget.data.gmail)
-                                  .then((v) => value.getRestaurantWonerData())
+                                  .then((v) =>
+                                      userProvider.getRestaurantWonerData())
                                   .then((value) => ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(
                                           content:

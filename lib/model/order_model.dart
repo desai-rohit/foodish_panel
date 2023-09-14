@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final orderModel = orderModelFromJson(jsonString);
-
 import 'dart:convert';
 
 List<OrderModel> orderModelFromJson(String str) =>
@@ -20,7 +16,7 @@ class OrderModel {
   String restorantName;
   String restorantgmail;
   String price;
-  String tottalprice;
+  String countTotalPrice;
   List<Address> address;
   int v;
 
@@ -37,7 +33,7 @@ class OrderModel {
       required this.restorantName,
       required this.restorantgmail,
       required this.price,
-      required this.tottalprice,
+      required this.countTotalPrice,
       required this.address,
       required this.v,
       required this.ordership,
@@ -53,7 +49,7 @@ class OrderModel {
       restorantName: json["restorant_name"],
       restorantgmail: json["restorant_gmail"],
       price: json["price"],
-      tottalprice: json["tottalprice"],
+      countTotalPrice: json["countTotalPrice"],
       address:
           List<Address>.from(json["address"].map((x) => Address.fromJson(x))),
       v: json["__v"],
@@ -70,7 +66,7 @@ class OrderModel {
         "restorant_name": restorantName,
         "restorant_gmail": restorantgmail,
         "price": price,
-        "tottalprice": tottalprice,
+        "countTotalPrice": countTotalPrice,
         "address": List<dynamic>.from(address.map((x) => x.toJson())),
         "__v": v,
         "ordership": ordership,

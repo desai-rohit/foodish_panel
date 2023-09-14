@@ -1,11 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:food_app_panel/model/order_model.dart';
 import 'package:food_app_panel/model/products_model.dart';
 import 'package:food_app_panel/model/restaurant_model.dart';
+import 'package:food_app_panel/pages/bottom_nav.dart';
+import 'package:food_app_panel/pages/user/loginpage.dart';
+import 'package:food_app_panel/pages/user/userprovider.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:provider/provider.dart';
 
 Future<http.Response> restaurantWoners({
   String? ownersName,
@@ -35,21 +40,6 @@ Future<http.Response> restaurantWoners({
       ]
     }),
   );
-}
-
-getRestaurantWoners() async {
-  try {
-    var res = await http
-        .get(Uri.parse("https://food-api-sable.vercel.app/restaurantList"));
-    if (res.statusCode == 200) {
-      var data = restaurantModelFromJson(res.body.toString());
-      return data;
-    } else {
-      print("error");
-    }
-  } catch (error) {
-    throw Exception('Failed to update album.');
-  }
 }
 
 Future<http.Response> postItem({
@@ -130,7 +120,7 @@ uploadFile(Uri filename) async {
       contentType: MediaType('image', 'jpeg')));
 
   request.send().then((response) {
-    if (response.statusCode == 200) print("Uploaded!");
+    if (response.statusCode == 200) {}
   });
 }
 
@@ -181,6 +171,17 @@ class ApiServices {
     }
     return [];
   }
+
+  Future<List<Products>> getcategoryProductsList(
+      {String? gmail, String? category}) async {
+    var res = await http.get(Uri.parse(
+        "https://food-api-sable.vercel.app/products/$gmail&$category"));
+    if (res.statusCode == 200) {
+      var data = productsFromJson(res.body.toString());
+      return data;
+    }
+    return [];
+  }
 }
 
 Future<Products> productUpdate(
@@ -224,4 +225,69 @@ Future<http.Response> updateUser(
       ]
     }),
   );
+}
+
+Future<Object> userlogin(
+    {required String gmail, required String password, context}) async {
+  var response = await http.post(
+    Uri.parse('https://food-api-sable.vercel.app/restaurantlogin'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      "gmail": gmail,
+      'password': password,
+    }),
+  );
+  if (response.statusCode == 200) {
+    Provider.of<UserProvider>(context, listen: false)
+        .userloginSharedPrefrance(context);
+    return Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const BottomNav()));
+  } else if (response.statusCode == 400) {
+    return ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("worng password")));
+  } else {
+    return ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("worng email and password")));
+  }
+}
+
+Future<Object> usersignup(
+    {String? ownersName,
+    String? gmail,
+    String? restautantName,
+    String? password,
+    required context}) async {
+  var response = await http.post(
+    Uri.parse('https://food-api-sable.vercel.app/restaurantsignup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'ownersName': ownersName,
+      'restaurantName': restautantName,
+      "openTimeing": "String",
+      "closeTimeing": "String",
+      'gmail': gmail,
+      "password": password,
+      "address": [
+        {
+          "lat": "lat",
+          "lng": "lng",
+          "area": "area",
+          "nearbyLandmark": "landmark"
+        }
+      ]
+    }),
+  );
+  if (response.body == "user already exists") {
+    return ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("User Already exists")));
+  } else {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    return ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("User Create Successfully")));
+  }
 }

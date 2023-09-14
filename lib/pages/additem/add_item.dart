@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:food_app_panel/provider/App_provider.dart';
+import 'package:food_app_panel/const.dart';
+import 'package:food_app_panel/pages/additem/additem_provider.dart';
+import 'package:food_app_panel/pages/user/userprovider.dart';
 import 'package:food_app_panel/services/api_services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -18,14 +20,20 @@ class _AddItemState extends State<AddItem> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<AppProvider>(context, listen: false).getRestaurantWonerData();
+      Provider.of<UserProvider>(context, listen: false)
+          .getRestaurantWonerData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    String? sigleImageFile;
-    return Consumer<AppProvider>(
+    final namefocus = FocusNode();
+    final pricefocus = FocusNode();
+    final desfocus = FocusNode();
+
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    return Consumer<AddItemProvider>(
       builder: (context, value, child) {
         return Scaffold(
           appBar: AppBar(),
@@ -49,18 +57,26 @@ class _AddItemState extends State<AddItem> {
                       child: value.imageFile != null
                           ? Image.file(
                               value.imageFile!,
-                              cacheHeight: 250,
-                              cacheWidth: 250,
+                              width: 350,
+                              height: 250,
+                              filterQuality: FilterQuality.medium,
                             )
                           : Image.asset(
                               "assets/add_image.png",
-                              cacheHeight: 250,
-                              cacheWidth: 250,
+                              width: 150,
+                              height: 150,
+                              cacheHeight: 500,
+                              cacheWidth: 500,
                             )),
                   const SizedBox(
                     height: 24,
                   ),
                   TextFormField(
+                    textInputAction: TextInputAction.next,
+                    focusNode: namefocus,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).requestFocus(pricefocus);
+                    },
                     controller: value.foodNameController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -71,6 +87,11 @@ class _AddItemState extends State<AddItem> {
                     height: 16,
                   ),
                   TextFormField(
+                    textInputAction: TextInputAction.next,
+                    focusNode: pricefocus,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).requestFocus(desfocus);
+                    },
                     controller: value.foodPriceController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -81,6 +102,11 @@ class _AddItemState extends State<AddItem> {
                     height: 16,
                   ),
                   TextFormField(
+                    textInputAction: TextInputAction.done,
+                    focusNode: desfocus,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).unfocus();
+                    },
                     controller: value.foodDesController,
                     maxLines: 10,
                     decoration: const InputDecoration(
@@ -95,8 +121,6 @@ class _AddItemState extends State<AddItem> {
                       width: double.infinity,
                       height: 60,
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red),
                           onPressed: () {
                             value.isloading == true
                                 ? const Center(
@@ -111,8 +135,8 @@ class _AddItemState extends State<AddItem> {
                                             price:
                                                 value.foodPriceController.text,
                                             des: value.foodDesController.text,
-                                            gmail: value.finalEmail,
-                                            restautantName: value
+                                            gmail: currentEmail,
+                                            restautantName: userProvider
                                                 .restaurantWonerData[0]
                                                 .restaurantName)
                                         .then((v) {

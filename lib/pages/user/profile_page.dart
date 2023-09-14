@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_app_panel/pages/add_address.dart';
-import 'package:food_app_panel/pages/loginpage.dart';
-import 'package:food_app_panel/pages/update_user.dart';
-import 'package:food_app_panel/provider/App_provider.dart';
+import 'package:food_app_panel/const.dart';
+import 'package:food_app_panel/pages/add_address/add_address.dart';
+import 'package:food_app_panel/pages/user/loginpage.dart';
+import 'package:food_app_panel/pages/updateUser/updateuser.dart';
+import 'package:food_app_panel/pages/user/userprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,13 +19,14 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<AppProvider>(context, listen: false).getRestaurantWonerData();
+      Provider.of<UserProvider>(context, listen: false)
+          .getRestaurantWonerData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppProvider>(builder: (context, value, child) {
+    return Consumer<UserProvider>(builder: (context, value, child) {
       return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(),
@@ -48,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      value.finalEmail.toString(),
+                      currentEmail!,
                       style: const TextStyle(
                           fontSize: 12, fontWeight: FontWeight.w500),
                     )
@@ -166,8 +168,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red),
                           onPressed: () async {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();

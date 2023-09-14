@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:food_app_panel/pages/loginpage.dart';
-import 'package:food_app_panel/provider/App_provider.dart';
+import 'package:food_app_panel/pages/user/loginpage.dart';
+import 'package:food_app_panel/pages/user/userprovider.dart';
 import 'package:food_app_panel/services/api_services.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +12,7 @@ class ResistorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Consumer<AppProvider>(builder: (context, provider, child) {
+      body: Consumer<UserProvider>(builder: (context, provider, child) {
         return SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(24),
@@ -79,46 +79,13 @@ class ResistorPage extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                         onPressed: () {
-                          for (var i = 0;
-                              i < provider.restaurantList.length;
-                              i++) {
-                            if (provider.restaurantList[i].gmail ==
-                                provider.gmailController.text) {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content:
-                                          Text("This Email Alredy Resistor")));
-                            } else {
-                              FocusManager.instance.primaryFocus?.unfocus();
-
-                              restaurantWoners(
-                                      ownersName: provider.nameController.text
-                                          .toString(),
-                                      gmail: provider.gmailController.text
-                                          .toString(),
-                                      password: provider.passworController.text
-                                          .toString(),
-                                      restautantName: provider
-                                          .restautantNameController.text
-                                          .toString())
-                                  .then((value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Account Created")));
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const LoginPage(),
-                                    ));
-
-                                provider.nameController.text = "";
-                                provider.gmailController.text = "";
-                                provider.passworController.text = "";
-                              });
-                              break;
-                            }
-                          }
+                          usersignup(
+                              context: context,
+                              ownersName: provider.nameController.text,
+                              restautantName:
+                                  provider.restautantNameController.text,
+                              gmail: provider.gmailController.text,
+                              password: provider.passworController.text);
                         },
                         child: const Text("Create Account"))),
                 const SizedBox(
