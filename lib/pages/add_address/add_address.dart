@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/const.dart';
-import 'package:food_app_panel/pages/add_address/addAddress_provider.dart';
+import 'package:food_app_panel/pages/add_address/addaddress_provider.dart';
+import 'package:food_app_panel/pages/add_address/addaddress_service.dart';
 import 'package:food_app_panel/pages/bottom_nav.dart';
 import 'package:food_app_panel/pages/user/profile_page.dart';
 import 'package:food_app_panel/pages/user/userprovider.dart';
-import 'package:food_app_panel/services/api_services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -141,7 +141,7 @@ class _AddAddressState extends State<AddAddress> {
                                                                         8)),
                                                   ),
                                                   onPressed: () {
-                                                    updateUser(
+                                                   AddaadressService().updateUser(
                                                             gmail:
                                                                 currentEmail!,
                                                             lat: provider.lat

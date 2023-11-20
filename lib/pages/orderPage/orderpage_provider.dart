@@ -3,33 +3,35 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/const.dart';
 import 'package:food_app_panel/model/order_model.dart';
-import 'package:food_app_panel/services/api_services.dart';
+import 'package:food_app_panel/pages/orderPage/order_service.dart';
 
 class OrderPageProvider extends ChangeNotifier {
-  List<OrderModel> data = [];
-  final _apiServices = ApiServices();
+  // List<OrderModel> data = [];
+  final orderService = OrderService();
   bool isloading = false;
 
   List<OrderModel> _order = [];
   List<OrderModel> get orderData => _order;
 
-  StreamController<List<OrderModel>> streamController =
-      StreamController<List<OrderModel>>();
+  // StreamController<List<OrderModel>> streamController =
+  //     StreamController<List<OrderModel>>();
 
-  Future<void> getOrderData() async {
+
+
+    Future<void> getOrderData() async {
     isloading = true;
     notifyListeners();
-    final response = await _apiServices.getOrders(currentEmail);
+    final response = await orderService.getOrders(currentEmail);
     _order = response;
     isloading = false;
-    streamController.sink.add(orderData);
-    data;
+    // streamController.sink.add(orderData);
+    // data;
     notifyListeners();
   }
 
   newOrderUpdate(id) {
     isloading = true;
-    orderUpdate(
+    OrderService().orderUpdate(
       id: id,
       gmail: currentEmail!,
       orderaccepted: true,
@@ -41,7 +43,7 @@ class OrderPageProvider extends ChangeNotifier {
 
   shipOrderUpdate(id) {
     isloading = true;
-    orderUpdate(
+   OrderService().orderUpdate(
       id: id,
       gmail: currentEmail!,
       orderaccepted: true,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:food_app_panel/comman/urls.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -12,6 +13,12 @@ class AddItemProvider extends ChangeNotifier {
 
   File? imageFile;
 
+   String dropdownValue = "";
+
+  categoryname(){
+     notifyListeners();
+  }
+
   imagepickFile(image) async {
     imageFile = image;
     // ? Image.file(imageFile!)
@@ -21,8 +28,10 @@ class AddItemProvider extends ChangeNotifier {
 
   Future<bool> uploadImage(String filename) async {
     isloading == true;
+    notifyListeners();
+  
     var request = http.MultipartRequest("POST",
-        Uri.parse("https://food-api-sable.vercel.app/productsuploadimg"));
+        Uri.parse("$apilink/productsuploadimg"));
 
     if (filename.isNotEmpty) {
       http.MultipartFile singleFile = await http.MultipartFile.fromPath(
@@ -35,9 +44,11 @@ class AddItemProvider extends ChangeNotifier {
 
     if (res.statusCode == 200) {
       isloading == false;
+      notifyListeners();
       return true;
     } else {
       isloading == false;
+      notifyListeners();
       return false;
     }
   }

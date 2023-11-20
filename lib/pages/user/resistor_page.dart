@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/pages/user/loginpage.dart';
+import 'package:food_app_panel/pages/user/user_services.dart';
 import 'package:food_app_panel/pages/user/userprovider.dart';
-import 'package:food_app_panel/services/api_services.dart';
 import 'package:provider/provider.dart';
 
 class ResistorPage extends StatelessWidget {
@@ -79,7 +79,7 @@ class ResistorPage extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                         onPressed: () {
-                          usersignup(
+                         UserService().usersignup(
                               context: context,
                               ownersName: provider.nameController.text,
                               restautantName:

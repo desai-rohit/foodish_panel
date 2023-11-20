@@ -1,0 +1,1 @@
+var apilink = "https://food-api-nu.vercel.app";

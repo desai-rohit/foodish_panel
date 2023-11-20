@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app_panel/const.dart';
 import 'package:food_app_panel/pages/add_address/add_address.dart';
 import 'package:food_app_panel/pages/user/loginpage.dart';
-import 'package:food_app_panel/pages/updateUser/updateuser.dart';
+import 'package:food_app_panel/pages/updateUser/update_user.dart';
 import 'package:food_app_panel/pages/user/userprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

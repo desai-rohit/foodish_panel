@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/const.dart';
 import 'package:food_app_panel/model/products_model.dart';
-import 'package:food_app_panel/services/api_services.dart';
+import 'package:food_app_panel/pages/homepage/homepage_services.dart';
 
 class HomePageProvider extends ChangeNotifier {
   bool isloading = false;
 
-  final _apiServices = ApiServices();
+  final homepageService = HomePageService();
 
   List<Products> _products = [];
 
@@ -15,7 +15,7 @@ class HomePageProvider extends ChangeNotifier {
   Future<void> getAllProducts() async {
     isloading = true;
     notifyListeners();
-    final response = await _apiServices.getProducts(currentEmail);
+    final response = await homepageService.getProducts(currentEmail);
     _products = response;
     isloading = false;
     notifyListeners();
@@ -25,7 +25,7 @@ class HomePageProvider extends ChangeNotifier {
       {required String gmail, String? category}) async {
     isloading = true;
     notifyListeners();
-    final response = await _apiServices.getcategoryProductsList(
+    final response = await homepageService.getcategoryProductsList(
         gmail: gmail, category: category);
     _products = response;
     isloading = false;

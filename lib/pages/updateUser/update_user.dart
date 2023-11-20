@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/pages/updateUser/updateuser_provider.dart';
+import 'package:food_app_panel/pages/updateUser/updateuser_service.dart';
 import 'package:food_app_panel/pages/user/profile_page.dart';
 import 'package:food_app_panel/pages/user/userprovider.dart';
-import 'package:food_app_panel/services/api_services.dart';
 import 'package:provider/provider.dart';
 
 class UpdateUser extends StatefulWidget {
-  dynamic data;
-  UpdateUser({super.key, required this.data});
+ final dynamic data;
+  const UpdateUser({super.key, required this.data});
 
   @override
   State<UpdateUser> createState() => _UpdateUserState();
@@ -71,7 +71,7 @@ class _UpdateUserState extends State<UpdateUser> {
                         onPressed: () {
                           widget.data.password ==
                                   value.userPasswordController.text
-                              ? updateUsername(
+                              ? UpdateUserServices().updateUsername(
                                       ownersName: value.userNameController.text,
                                       restaurantName: value
                                           .userRestaurantNameController.text,

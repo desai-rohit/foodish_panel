@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/const.dart';
 import 'package:food_app_panel/pages/homepage/homepage_provider.dart';
 import 'package:food_app_panel/pages/updateProduct/update_products.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 List<String> categoryImage = [
   "assets/all_food.png",
@@ -42,13 +44,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Consumer<HomePageProvider>(
       builder: (context, value, child) {
-        return value.isloading == true
-            ? const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.red,
-                ),
-              )
-            : Scaffold(
+        return
+
+            // value.isloading == true
+            //     ? const Center(
+            //         child: CircularProgressIndicator(
+            //           color: Colors.red,
+            //         ),
+            //       )
+            //     :
+
+            Scaffold(
                 // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 appBar: AppBar(
                   title: const Text("Home"),
@@ -121,7 +127,46 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(
                           height: 16,
                         ),
-                        value.prodcutsData.isEmpty
+                        // value.prodcutsData.isEmpty
+                        //     ? const Center(
+                        //         child: Text(
+                        //           "No Any Products found",
+                        //           style: TextStyle(
+                        //               fontSize: 18,
+                        //               fontWeight: FontWeight.bold),
+                        //         ),
+                        //       )
+                        //     :
+                        value.isloading == true
+                            ? GridView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: 5,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 6 / 9.5,
+                                        crossAxisSpacing: 8,
+                                        mainAxisSpacing: 8),
+                                itemBuilder: (context, index) {
+                                  return SizedBox(
+                                      width: 50.0,
+                                      height: 100.0,
+                                      child: Shimmer.fromColors(
+                                        baseColor: Colors.grey[500]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          width: 50,
+                                          height: 100,
+                                        ),
+                                      ));
+                                })
+                            :
+                              value.prodcutsData.isEmpty
                             ? const Center(
                                 child: Text(
                                   "No Any Products found",
@@ -130,7 +175,8 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               )
-                            : GridView.builder(
+                            :
+                             GridView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: value.prodcutsData.length,
                                 shrinkWrap: true,
@@ -169,8 +215,7 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Image.network(
-                                              value.prodcutsData[index].image!,
+                                            CachedNetworkImage(
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .height *
@@ -179,10 +224,17 @@ class _HomePageState extends State<HomePage> {
                                                       .size
                                                       .height *
                                                   0.15,
-                                              cacheHeight: 115,
-                                              cacheWidth: 115,
-                                              fit: BoxFit.fill,
+                                              imageUrl: value
+                                                  .prodcutsData[index].image!,
+                                              placeholder: (context, url) =>
+                                                  const Center(
+                                                      child:
+                                                          CircularProgressIndicator()),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
                                             ),
+                                      
                                             Text(
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,

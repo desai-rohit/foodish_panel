@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/config/my_theme.dart';
-import 'package:food_app_panel/pages/add_address/addAddress_provider.dart';
+import 'package:food_app_panel/pages/add_address/addaddress_provider.dart';
 import 'package:food_app_panel/pages/additem/additem_provider.dart';
 import 'package:food_app_panel/pages/homepage/homepage_provider.dart';
 import 'package:food_app_panel/pages/orderPage/orderpage_provider.dart';

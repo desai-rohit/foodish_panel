@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_panel/pages/homepage/homepage_provider.dart';
 import 'package:food_app_panel/pages/updateProduct/updateProducts_provider.dart';
-import 'package:food_app_panel/services/api_services.dart';
+import 'package:food_app_panel/pages/updateProduct/updateproduct_service.dart';
 import 'package:provider/provider.dart';
 
 class UpdateProducts extends StatefulWidget {
-  dynamic data;
-  UpdateProducts({super.key, required this.data});
+  final dynamic data;
+  const UpdateProducts({super.key, required this.data});
 
   @override
   State<UpdateProducts> createState() => _UpdateProductsState();
@@ -15,7 +15,6 @@ class UpdateProducts extends StatefulWidget {
 class _UpdateProductsState extends State<UpdateProducts> {
   @override
   void initState() {
-    // TODO: implement initState
     UpdateProductsProvider provider =
         Provider.of<UpdateProductsProvider>(context, listen: false);
 
@@ -72,7 +71,7 @@ class _UpdateProductsState extends State<UpdateProducts> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          productUpdate(
+                         UpdateproductService().productUpdate(
                                   id: widget.data.id,
                                   foodName:
                                       value.productsNameUpdateController.text,
