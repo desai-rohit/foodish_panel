@@ -13,4 +13,5 @@
   <img src="https://github.com/RDdev04/foodish_panel/assets/76545854/54983b1c-fee5-476f-8363-5fb4d86f88de" width="250" height="500" />
 
   </p>
-
+Foodish Panel APK Link
+https://drive.google.com/file/d/1JKsI_WDgozy-cVROaSmr6JT15H7OJpmI/view?usp=sharing
