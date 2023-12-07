@@ -14,6 +14,6 @@
 
   </p>
 Foodish Panel APK Link
-https://drive.google.com/file/d/1JKsI_WDgozy-cVROaSmr6JT15H7OJpmI/view?usp=sharing
+https://drive.google.com/file/d/12RQYbiP1hpRDcbe-mckpTnZY9kUyZO6Q/view?usp=sharing
 
 username:-vaibhav@gmail.com password:-123456
